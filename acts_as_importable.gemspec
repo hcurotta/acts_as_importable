@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = ActsAsImportable::VERSION
   spec.authors       = ["Harry Curotta"]
   spec.email         = ["hcurotta@gmail.com"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
+  spec.summary       = %q{Import CSV fields to ActiveRecord model}
+  spec.description   = %q{}
   spec.homepage      = ""
   spec.license       = "MIT"
 
