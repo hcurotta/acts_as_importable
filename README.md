@@ -1,6 +1,6 @@
-# Dogeify
+# ActsAsImportable
 
-TODO: Write a gem description
+
 
 ## Installation
 
@@ -20,11 +20,20 @@ Or install it yourself as:
 
 ## Usage
 
+Add the acts_as_importable to your activerecord models and pass in an whitelist array of all the attributes you want to be importable. 
+
+```ruby
+class Person < ActiveRecord::Base
+  acts_as_importable :first_name, :last_name
+end
+
+```
+
 TODO: Write usage instructions here
 
 ## Contributing
 
-1. Fork it ( https://github.com/[my-github-username]/dogeify/fork )
+1. Fork it ( https://github.com/hcurotta/acts_as_importable/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
