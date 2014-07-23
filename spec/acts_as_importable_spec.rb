@@ -2,24 +2,16 @@ require 'spec_helper'
 
 
 describe ActsAsImportable do
-  subject { ActsAsImportable.new }
 
-  describe '#process' do
-    let(:input) { 'My grandmom gave me a sweater for Christmas.' }
-    let(:output) { subject.process(input) }
+  let(:csv_file_path) { "#{File.dirname(__FILE__)}/fixtures/test_import.csv" }
 
-    it 'converts to lowercase' do
-      expect(output.downcase).to eq output
-    end
+  it 'returns a hash of csv headers and importable fields' do
+    expect(Person.importable_fields(csv_file_path)).to eq({csv: ["first_name", "last_name", "company_name"], person: ["first_name", "last_name"]})
+  end
 
-    it 'combines nouns with doge adjectives' do
-      expect(output).to match /so grandmom\./i
-      expect(output).to match /such sweater\./i
-      expect(output).to match /very christmas\./i
-    end
-
-    it 'always appends "wow."' do
-      expect(output).to end_with 'wow.'
+  context 'when provided with a csv and column mappings hash' do 
+    it 'imports a csv with the correct mappings' do 
+      expect{Person.import_records(csv_file_path, {"first_name" => "first_name", "last_name" => "last_name"})}.to change{Person.count}.from(0).to(6)
     end
   end
 end
