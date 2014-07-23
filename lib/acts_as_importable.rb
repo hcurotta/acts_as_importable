@@ -1,5 +1,7 @@
 require "acts_as_importable/version"
 require "active_support/concern"
+require "csv"
+require "smarter_csv"
 
 module ActsAsImportable
  extend ActiveSupport::Concern
@@ -32,7 +34,7 @@ module ActsAsImportable
         csv = SmarterCSV.process(csv_file_path)
         csv.map! {|c| replace_keys(c, column_mapping)}
         csv.each do |record|
-          Person.create!(record)
+          self.create!(record)
         end
       end
 
@@ -44,3 +46,6 @@ module ActsAsImportable
     end
   end
 end
+
+
+ActiveRecord::Base.send(:include, ActsAsImportable)
