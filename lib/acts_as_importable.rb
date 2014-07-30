@@ -27,7 +27,7 @@ module ActsAsImportable
     module ClassMethods
       def importable_fields(csv_file_path)
         csv_headers = CSV.read(csv_file_path)[0]
-        {:csv => csv_headers, self.name.downcase.to_sym => self.permitted_import_fields}
+        {:csv => csv_headers || [], self.name.downcase.to_sym => self.permitted_import_fields}
       end
 
       def import_records(csv_file_path, column_mapping)
