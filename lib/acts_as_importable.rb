@@ -31,9 +31,9 @@ module ActsAsImportable
       end
 
       def import_records(csv_file_path, column_mapping)
-        column_mapping = column_mapping.invert
+        mapping = sanitize_mapping(column_mapping)
         csv = SmarterCSV.process(csv_file_path)
-        csv.map! {|c| replace_keys(c, column_mapping)}
+        csv.map! {|c| replace_keys(c, mapping)}
         csv.each do |record|
           self.create!(record)
         end
@@ -42,9 +42,13 @@ module ActsAsImportable
       def replace_keys(csv_row, mapping)
         Hash[csv_row.map {|k, v| mapping[k.to_s].nil? ? nil :[mapping[k.to_s], v] }.compact]
       end
+
+      def sanitize_mapping(mapping)
+        Hash[mapping.map{|k,v| [k, v.to_s.parameterize.underscore] }].invert
+      end
     end
   end
 end
 
 
-ActiveRecord::Base.send(:include, ActsAsImportable)
+# ActiveRecord::Base.send(:include, ActsAsImportable)
