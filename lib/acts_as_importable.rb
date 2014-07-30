@@ -51,4 +51,4 @@ module ActsAsImportable
 end
 
 
-# ActiveRecord::Base.send(:include, ActsAsImportable)
+ActiveRecord::Base.send(:include, ActsAsImportable)
