@@ -34,9 +34,11 @@ module ActsAsImportable
         mapping = sanitize_mapping(column_mapping)
         csv = SmarterCSV.process(csv_file_path)
         csv.map! {|c| replace_keys(c, mapping)}
+        records = []
         csv.each do |record|
-          self.create!(record)
+          records << self.create!(record)
         end
+        records
       end
 
       def replace_keys(csv_row, mapping)
