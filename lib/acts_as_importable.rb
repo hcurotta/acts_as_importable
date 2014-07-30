@@ -31,6 +31,7 @@ module ActsAsImportable
       end
 
       def import_records(csv_file_path, column_mapping)
+        column_mapping = column_mapping.invert
         csv = SmarterCSV.process(csv_file_path)
         csv.map! {|c| replace_keys(c, column_mapping)}
         csv.each do |record|
@@ -38,10 +39,8 @@ module ActsAsImportable
         end
       end
 
-      private
-
-      def replace_keys(hash, mapping)
-        Hash[hash.map {|k, v| mapping[k.to_s].nil? ? nil :[mapping[k.to_s], v] }.compact]
+      def replace_keys(csv_row, mapping)
+        Hash[csv_row.map {|k, v| mapping[k.to_s].nil? ? nil :[mapping[k.to_s], v] }.compact]
       end
     end
   end
